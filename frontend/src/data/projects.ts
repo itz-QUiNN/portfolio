@@ -1,17 +1,36 @@
+export interface CaseStudySections {
+  problem: string
+  solution: string
+  architecture: string[]
+  challenges: string[]
+  result: string
+}
+
 export interface Project {
   slug: string
   title: string
   summary: string
   stack: string[]
+  caseStudy?: CaseStudySections
 }
 
-// Summaries and stacks are placeholders until replaced with real project details.
+// Everything below is placeholder until replaced with real project details.
 export const projects: Project[] = [
   {
     slug: 'tcgplayer-price-intelligence',
     title: 'TCGplayer Price Intelligence',
     summary: 'Placeholder: collects marketplace pricing and exports it for analysis.',
     stack: ['Python', 'Playwright', 'SQLite', 'CSV', 'PyInstaller'],
+    caseStudy: {
+      problem: 'Placeholder: what was hard or manual before this existed.',
+      solution: 'Placeholder: what you built and how it changed the workflow.',
+      architecture: ['Website', 'Playwright', 'Extraction', 'Validation', 'CSV / SQLite'],
+      challenges: [
+        'Placeholder: a real technical challenge and how you solved it.',
+        'Placeholder: a second challenge.',
+      ],
+      result: 'Placeholder: a concrete outcome. No invented metrics.',
+    },
   },
   {
     slug: 'youtube-extraction',
@@ -32,3 +51,7 @@ export const projects: Project[] = [
     stack: [],
   },
 ]
+
+export function getProject(slug: string): Project | undefined {
+  return projects.find((project) => project.slug === slug)
+}

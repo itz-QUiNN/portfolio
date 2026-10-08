@@ -1,19 +1,32 @@
-import { projects } from '../data/projects'
+import { Link } from "react-router-dom";
+import { projects } from "../data/projects";
 
 export default function SelectedWork() {
   return (
     <section id="work" className="mx-auto max-w-6xl scroll-mt-16 px-6 py-24">
-      <h2 className="font-mono text-sm uppercase tracking-widest text-accent">Selected work</h2>
+      <h2 className="font-mono text-sm uppercase tracking-widest text-accent">
+        Selected work
+      </h2>
 
       <ul className="mt-12 divide-y divide-line border-y border-line">
         {projects.map((project, index) => (
-          <li key={project.slug} className="grid gap-4 py-8 md:grid-cols-[4rem_1fr_1fr]">
+          <li
+            key={project.slug}
+            className="grid gap-4 py-8 md:grid-cols-[4rem_1fr_1fr]"
+          >
             <span className="font-mono text-sm text-muted">
-              {String(index + 1).padStart(2, '0')}
+              {String(index + 1).padStart(2, "0")}
             </span>
 
             <div>
-              <h3 className="text-2xl font-semibold tracking-tight">{project.title}</h3>
+              <h3 className="text-2xl font-semibold tracking-tight">
+                <Link
+                  to={`/work/${project.slug}`}
+                  className="transition-colors duration-(--motion-micro) hover:text-accent"
+                >
+                  {project.title}
+                </Link>
+              </h3>
               <p className="mt-2 max-w-md text-muted">{project.summary}</p>
             </div>
 
@@ -33,5 +46,5 @@ export default function SelectedWork() {
         ))}
       </ul>
     </section>
-  )
+  );
 }
