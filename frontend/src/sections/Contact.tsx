@@ -1,4 +1,4 @@
-const EMAIL = 'itzishara@gmail.com'
+import ContactForm from '../components/ContactForm'
 
 export default function Contact() {
   return (
@@ -9,12 +9,7 @@ export default function Contact() {
         Have a website you need data from, or a workflow you are tired of doing by hand?
       </p>
 
-      <a
-        href={`mailto:${EMAIL}`}
-        className="mt-10 inline-block rounded-md bg-accent px-5 py-3 text-sm font-medium text-bg transition-opacity duration-(--motion-micro) hover:opacity-90"
-      >
-        {EMAIL}
-      </a>
+      <ContactForm />
     </section>
   )
 }
