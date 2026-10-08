@@ -1,5 +1,6 @@
 import Nav from '../components/Nav'
 import Hero from '../sections/Hero'
+import SelectedWork from '../sections/SelectedWork'
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
+        <SelectedWork />
       </main>
     </>
   )
