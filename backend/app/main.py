@@ -5,6 +5,7 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from app.api.contact import router as contact_router
+from app.api.demos import router as demos_router
 from app.api.health import router as health_router
 from app.config import settings
 from app.limiter import limiter
@@ -42,3 +43,4 @@ app.add_middleware(
 
 app.include_router(health_router, prefix="/api")
 app.include_router(contact_router, prefix="/api")
+app.include_router(demos_router, prefix="/api")

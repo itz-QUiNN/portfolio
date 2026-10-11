@@ -7,6 +7,15 @@ export interface ContactPayload {
   website: string
 }
 
+export class ApiError extends Error {
+  status: number
+
+  constructor(status: number) {
+    super(`Request failed with status ${status}`)
+    this.status = status
+  }
+}
+
 export async function sendContact(payload: ContactPayload): Promise<void> {
   const response = await fetch('/api/contact', {
     method: 'POST',
@@ -14,6 +23,6 @@ export async function sendContact(payload: ContactPayload): Promise<void> {
     body: JSON.stringify(payload),
   })
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`)
+    throw new ApiError(response.status)
   }
 }

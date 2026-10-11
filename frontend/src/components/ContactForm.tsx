@@ -1,34 +1,36 @@
-import { useState } from 'react'
-import type { FormEvent } from 'react'
+import { useState } from "react";
+import type { FormEvent } from "react";
 
-import { sendContact } from '../lib/api'
+import { sendContact, ApiError } from "../lib/api";
 
-type Status = 'idle' | 'sending' | 'sent' | 'error'
+type Status = "idle" | "sending" | "sent" | "error" | "limited";
 
 const field =
-  'mt-2 w-full rounded-md border border-line bg-surface px-3 py-2 text-ink placeholder:text-muted'
+  "mt-2 w-full rounded-md border border-line bg-surface px-3 py-2 text-ink placeholder:text-muted";
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<Status>('idle')
+  const [status, setStatus] = useState<Status>("idle");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const form = event.currentTarget
-    const data = new FormData(form)
-    setStatus('sending')
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
     try {
       await sendContact({
-        name: String(data.get('name')),
-        email: String(data.get('email')),
-        project_type: String(data.get('project_type')),
-        budget: String(data.get('budget')),
-        message: String(data.get('message')),
-        website: String(data.get('website')),
-      })
-      form.reset()
-      setStatus('sent')
-    } catch {
-      setStatus('error')
+        name: String(data.get("name")),
+        email: String(data.get("email")),
+        project_type: String(data.get("project_type")),
+        budget: String(data.get("budget")),
+        message: String(data.get("message")),
+        website: String(data.get("website")),
+      });
+      form.reset();
+      setStatus("sent");
+    } catch (error) {
+      setStatus(
+        error instanceof ApiError && error.status === 429 ? "limited" : "error",
+      );
     }
   }
 
@@ -37,7 +39,13 @@ export default function ContactForm() {
       <div className="grid gap-6 md:grid-cols-2">
         <label className="text-sm">
           Name
-          <input name="name" required maxLength={100} autoComplete="name" className={field} />
+          <input
+            name="name"
+            required
+            maxLength={100}
+            autoComplete="name"
+            className={field}
+          />
         </label>
         <label className="text-sm">
           Email
@@ -54,7 +62,12 @@ export default function ContactForm() {
       <div className="grid gap-6 md:grid-cols-2">
         <label className="text-sm">
           Project type
-          <select name="project_type" required defaultValue="" className={field}>
+          <select
+            name="project_type"
+            required
+            defaultValue=""
+            className={field}
+          >
             <option value="" disabled>
               Select one
             </option>
@@ -102,16 +115,18 @@ export default function ContactForm() {
       <div className="flex items-center gap-4">
         <button
           type="submit"
-          disabled={status === 'sending'}
+          disabled={status === "sending"}
           className="rounded-md bg-accent px-5 py-3 text-sm font-medium text-bg transition-opacity duration-(--motion-micro) hover:opacity-90 disabled:opacity-50"
         >
-          {status === 'sending' ? 'Sending...' : 'Send project details'}
+          {status === "sending" ? "Sending..." : "Send project details"}
         </button>
         <p role="status" className="text-sm text-muted">
-          {status === 'sent' && 'Sent. I will reply by email.'}
-          {status === 'error' && 'Something went wrong. Please try again.'}
+          {status === "sent" && "Sent. I will reply by email."}
+          {status === "limited" &&
+            "Too many attempts. Please wait a minute and try again."}
+          {status === "error" && "Something went wrong. Please try again."}
         </p>
       </div>
     </form>
-  )
+  );
 }
