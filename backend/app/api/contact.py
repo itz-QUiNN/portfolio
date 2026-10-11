@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.schemas.contact import ContactRequest, ContactResponse
-from app.services.contact import deliver_contact
+from app.services.contact import DeliveryError, deliver_contact
 
 router = APIRouter()
 
@@ -11,5 +11,8 @@ def submit_contact(request: ContactRequest) -> ContactResponse:
     if request.website:
         # Honeypot tripped: pretend success, send nothing.
         return ContactResponse(status="ok")
-    deliver_contact(request)
+    try:
+        deliver_contact(request)
+    except DeliveryError:
+        raise HTTPException(status_code=502, detail="Could not deliver message") from None
     return ContactResponse(status="ok")
