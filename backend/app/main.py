@@ -9,6 +9,7 @@ from app.api.demos import router as demos_router
 from app.api.health import router as health_router
 from app.config import settings
 from app.limiter import limiter
+from app.static_site import mount_frontend
 
 MAX_BODY_BYTES = 16 * 1024
 
@@ -44,3 +45,5 @@ app.add_middleware(
 app.include_router(health_router, prefix="/api")
 app.include_router(contact_router, prefix="/api")
 app.include_router(demos_router, prefix="/api")
+
+mount_frontend(app)
