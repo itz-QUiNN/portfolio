@@ -1,11 +1,12 @@
 import { Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const links = [
-  { label: 'Work', href: '#work' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Work', to: '/#work' },
+  { label: 'Services', to: '/#services' },
+  { label: 'About', to: '/#about' },
+  { label: 'Contact', to: '/#contact' },
 ]
 
 export default function Nav() {
@@ -26,30 +27,30 @@ export default function Nav() {
         aria-label="Primary"
         className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6"
       >
-        <a href="/" className="font-mono text-sm font-medium uppercase tracking-widest">
+        <Link to="/" className="font-mono text-sm font-medium uppercase tracking-widest">
           Ishara
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
           {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
+            <li key={link.to}>
+              <Link
+                to={link.to}
                 className="text-sm text-muted transition-colors duration-(--motion-micro) hover:text-ink"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#contact"
+          <Link
+            to="/#contact"
             className="hidden rounded-md border border-line bg-surface px-4 py-2 text-sm transition-colors duration-(--motion-micro) hover:border-accent md:inline-block"
           >
             Let&apos;s talk
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -67,15 +68,15 @@ export default function Nav() {
       {open && (
         <div id="mobile-menu" className="border-t border-line bg-bg md:hidden">
           <ul className="mx-auto max-w-6xl px-6 py-4">
-            {[...links, { label: "Let's talk", href: '#contact' }].map((link) => (
+            {[...links, { label: "Let's talk", to: '/#contact' }].map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
+                <Link
+                  to={link.to}
                   onClick={() => setOpen(false)}
                   className="block py-3 text-lg text-muted transition-colors duration-(--motion-micro) hover:text-ink"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
